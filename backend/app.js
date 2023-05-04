@@ -1,11 +1,12 @@
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const products = require('./routes/productsRouter');
-const auth = require('./routes/authRouter');
-const order = require('./routes/orderRouter');
-const errorMiddleware = require('./middlewares/error');
-const cloudinary = require('cloudinary');
-const bodyparser = require('body-parser');
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const products = require("./routes/productsRouter");
+const auth = require("./routes/authRouter");
+const order = require("./routes/orderRouter");
+const payment = require("./routes/paymentRouter");
+const errorMiddleware = require("./middlewares/error");
+const cloudinary = require("cloudinary");
+const bodyparser = require("body-parser");
 
 const app = express();
 
@@ -13,9 +14,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(bodyparser.urlencoded({ extended: true }));
 
-app.use('/api', products);
-app.use('/api', auth);
-app.use('/api', order);
+app.use("/api", products);
+app.use("/api", auth);
+app.use("/api", order);
+app.use("/api", payment);
 
 //setting up cloudinay config
 cloudinary.config({
