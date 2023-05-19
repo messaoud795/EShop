@@ -16,11 +16,11 @@ app.use(cookieParser());
 app.use(bodyparser.urlencoded({ extended: true }));
 
 //deployment
-app.use(express.static(path.join(__dirname, "../frontend/build")));
+app.use(express.static(path.join(__dirname, "../frontend/build1")));
 if (process.env.NODE_ENV === "production") {
   app.get("*", function (_, res) {
     res.sendFile(
-      path.join(__dirname, "./frontend/build/index.html"),
+      path.join(__dirname, "./frontend/build1/index.html"),
       function (err) {
         res.status(500).send(err);
       }
