@@ -1,14 +1,14 @@
-const ErrorHandler = require('../utils/errorHandler');
-const catchAsyncError = require('./catchAsyncError');
-const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+const ErrorHandler = require("../utils/errorHandler");
+const catchAsyncError = require("./catchAsyncError");
+const jwt = require("jsonwebtoken");
+const User = require("../models/user");
 
 //checks if user is authenticated or not
 
 exports.isUserAuthenticated = catchAsyncError(async (req, res, next) => {
   const { token } = req.cookies;
   if (!token) {
-    return next(new ErrorHandler('Login first to access this resources', 401));
+    return next(new ErrorHandler("Login first to access this resources", 401));
   }
   const decoded = jwt.verify(token, process.env.jwtSecretKey);
 

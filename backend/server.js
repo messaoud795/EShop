@@ -17,6 +17,19 @@ const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
+//deployment
+app.use(express.static(path.join(__dirname, "./client/build")));
+if (process.env.NODE_ENV === "production") {
+  app.get("*", function (_, res) {
+    res.sendFile(
+      path.join(__dirname, "./client/build/index.html"),
+      function (err) {
+        res.status(500).send(err);
+      }
+    );
+  });
+}
+
 // handle unhandled Promise rejections
 process.on("unhandledRejection", (err) => {
   console.log({ error: err.message });
