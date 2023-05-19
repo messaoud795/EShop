@@ -12,23 +12,17 @@ const path = require("path");
 const app = express();
 
 //deployment
-// app.use(express.static(path.join(__dirname, "../frontend/build")));
-// if (process.env.NODE_ENV === "production") {
-//   app.get("*", function (_, res) {
-//     res.sendFile(
-//       path.join(__dirname, "./frontend/build/index.html"),
-//       function (err) {
-//         res.status(500).send(err);
-//       }
-//     );
-//   });
-// }
-
-const root = path.join(__dirname, "client", "build");
-app.use(express.static(root));
-app.get("*", (req, res) => {
-  res.sendFile("index.html", { root });
-});
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+if (process.env.NODE_ENV === "production") {
+  app.get("*", function (_, res) {
+    res.sendFile(
+      path.join(__dirname, "./frontend/build/index.html"),
+      function (err) {
+        res.status(500).send(err);
+      }
+    );
+  });
+}
 
 app.use(express.json());
 app.use(cookieParser());
