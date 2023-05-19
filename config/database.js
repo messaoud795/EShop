@@ -3,6 +3,8 @@ const dotenv = require("dotenv");
 dotenv.config({ path: __dirname + "/config.env" });
 
 const connectDB = async () => {
+  mongoose.set("strictQuery", false);
+
   try {
     await mongoose.connect(process.env.MongoURI, {
       useNewUrlParser: true,
