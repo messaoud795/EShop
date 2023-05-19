@@ -7,12 +7,26 @@ const payment = require("./routes/paymentRouter");
 const errorMiddleware = require("./middlewares/error");
 const cloudinary = require("cloudinary");
 const bodyparser = require("body-parser");
+const path = require("path");
 
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyparser.urlencoded({ extended: true }));
+
+//deployment
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+if (process.env.NODE_ENV === "production") {
+  app.get("*", function (_, res) {
+    res.sendFile(
+      path.join(__dirname, "./frontend/build/index.html"),
+      function (err) {
+        res.status(500).send(err);
+      }
+    );
+  });
+}
 
 app.use("/api", products);
 app.use("/api", auth);
