@@ -7,6 +7,10 @@ body {
   padding: 0px;
   overflow-x: hidden;
 }
+.App {
+  background-color: #eaf1f11e;
+  min-height: 100vh;
+}
 
 /* Scroll Bar */
 

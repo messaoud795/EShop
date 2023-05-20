@@ -37,7 +37,7 @@ const Cart = () => {
           <h3 className="mt-5">
             Your Cart:
             <b>
-              {cartItems.length} {`item ${cartItems.length ?? "s"}`}
+              {cartItems.length} {`item ${cartItems.length > 0 ? "s" : ""}`}
             </b>
           </h3>
           <div className="row d-flex justify-content-between">
