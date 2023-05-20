@@ -1,20 +1,24 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
+import "./product.css";
 
 export const Product = ({ product, col }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className={`col-sm-12 col-md-6 col-lg-${col} my-3`}>
-      <div className="card p-3 rounded">
+    <div className={`col-sm-12 col-md-6 col-lg-${col} my-3 `}>
+      <div
+        className="card p-3 rounded product"
+        onClick={() => navigate({ pathname: `/product/${product._id}` })}
+      >
         <img
           className="card-img-top mx-auto"
           src={product.images.length > 0 && product.images[0].url}
           alt="product-img"
         />
         <div className="card-body d-flex flex-column">
-          <h5 className="card-title">
-            <Link to={`/product/${product._id}`}>{product.name}</Link>
-          </h5>
+          <h5 className="card-title">{product.name}</h5>
           <div>
             <ReactStars
               count={5}
