@@ -111,7 +111,7 @@ export const ProductDetails = () => {
       {loading ? (
         <Loader />
       ) : (
-        <Fragment>
+        <div className="container-fluid">
           <MetaData title={product.name} />
           <div className="row f-flex justify-content-around">
             <div className="col-12 col-lg-5 img-fluid" id="product_image">
@@ -282,7 +282,7 @@ export const ProductDetails = () => {
           {product?.Reviews?.length > 0 && (
             <ListReviews reviews={product?.Reviews} />
           )}
-        </Fragment>
+        </div>
       )}
     </Fragment>
   );

@@ -22,7 +22,7 @@ const ConfirmOrder = () => {
     navigate({ pathname: "/payment" });
   };
   return (
-    <div style={{ padding: "0 30px" }}>
+    <div className="container-fluid">
       <MetaData title={"Confirm order"} />
       <CheckoutSteps shipping confirmOrder />
       <div className="row d-flex justify-content-between">

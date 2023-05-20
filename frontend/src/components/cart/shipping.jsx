@@ -12,7 +12,7 @@ const Shipping = () => {
   const [address, setAdress] = useState(shippingInfo.address);
   const [city, setCity] = useState(shippingInfo.city);
   const [postalCode, setPostalCode] = useState(shippingInfo.postalCode);
-  const [phone, setPhone] = useState(shippingInfo.phone);
+  const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo);
   const [country, setCountry] = useState(shippingInfo.country);
   let navigate = useNavigate();
 
@@ -20,9 +20,7 @@ const Shipping = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(
-      SaveShippingInfo({ address, city, postalCode, phoneNo: phone, country })
-    );
+    dispatch(SaveShippingInfo({ address, city, postalCode, phoneNo, country }));
     navigate({ pathname: "/order/confirm" });
   };
 
@@ -64,8 +62,8 @@ const Shipping = () => {
                 type="phone"
                 id="phone_field"
                 className="form-control"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                value={phoneNo}
+                onChange={(e) => setPhoneNo(e.target.value)}
                 required
               />
             </div>

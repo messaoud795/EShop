@@ -3,7 +3,7 @@ import ReactStars from "react-rating-stars-component";
 
 const ListReviews = ({ reviews }) => {
   return (
-    <div className="reviews w-75" style={{ padding: "0 50px" }}>
+    <div className="reviews w-75">
       <h3>Reviews:</h3>
       <hr />
       {reviews &&

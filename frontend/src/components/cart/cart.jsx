@@ -28,14 +28,17 @@ const Cart = () => {
     navigate({ pathname: "/shipping", search: `?redirect=shipping` });
   };
   return (
-    <div style={{ padding: "0 30px" }}>
+    <div className="container-fluid">
       <MetaData title={"Your cart"} />
       {cartItems.length === 0 ? (
         <h3 className="mt-5">Your cart is empty</h3>
       ) : (
         <Fragment>
           <h3 className="mt-5">
-            Your Cart: <b>{cartItems.length} items</b>
+            Your Cart:
+            <b>
+              {cartItems.length} {`item ${cartItems.length ?? "s"}`}
+            </b>
           </h3>
           <div className="row d-flex justify-content-between">
             <div className="col-12 col-lg-8">

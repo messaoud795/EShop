@@ -5,6 +5,7 @@ import store from "./store";
 import { Provider } from "react-redux";
 import { positions, transitions, Provider as AlertProvider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
+import "./index.css";
 
 const options = {
   timeout: 5000,
