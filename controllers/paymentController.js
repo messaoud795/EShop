@@ -11,17 +11,9 @@ exports.processPayment = catchAsyncError(async (req, res, next) => {
       integration_check: "accept_a_payment",
     },
   });
-
-  // const result = await stripe.confirmCardPayment(clientSecret, {
-  //   payment_method: {
-  //     card: elements.getElement(CardNumberElement),
-  //     billing_details: { name: user.name, email: user.email },
-  //   },
-  // });
-
   res.status(200).json({
     success: true,
-    // client_secret: paymentIntent.client_secret,
+    client_secret: paymentIntent.client_secret,
   });
 });
 
