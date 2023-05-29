@@ -17,6 +17,10 @@ const { isUserAuthenticated, authorizedRoles } = require("../middlewares/auth");
 router.route("/products").get(getProducts);
 router.route("/product/:id").get(getSingleProduct);
 
+router.route("/review").put(isUserAuthenticated, newProductReview);
+router.route("/reviews").get(isUserAuthenticated, getProductReviews);
+router.route("/review").delete(isUserAuthenticated, deleteProductReview);
+
 router
   .route("/product/new")
   .post(isUserAuthenticated, authorizedRoles("admin"), newProduct);
@@ -26,10 +30,6 @@ router
 router
   .route("/admin/product/:id")
   .delete(isUserAuthenticated, authorizedRoles("admin"), deleteProduct);
-
-router.route("/review").put(isUserAuthenticated, newProductReview);
-router.route("/reviews").get(isUserAuthenticated, getProductReviews);
-router.route("/review").delete(isUserAuthenticated, deleteProductReview);
 
 router
   .route("/admin/products")

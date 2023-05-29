@@ -56,7 +56,7 @@ const Payment = () => {
         headers: { "Content-Type": "application/json" },
       };
       res = await axios.post("api/payment/process", paymentData, config);
-      const clientSecret = res.data.client_secret;
+      const clientSecret = res.data?.client_secret;
       if (!stripe || !elements) {
         return;
       }
@@ -71,7 +71,6 @@ const Payment = () => {
         document.querySelector("#pay_btn").disabled = false;
       } else {
         if (result.paymentIntent.status === "succeeded") {
-          // to do new order
           order.paymentInfo = {
             id: result.paymentIntent.id,
             status: result.paymentIntent.status,

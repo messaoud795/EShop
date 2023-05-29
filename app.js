@@ -8,8 +8,15 @@ const errorMiddleware = require("./middlewares/error");
 const cloudinary = require("cloudinary");
 const bodyparser = require("body-parser");
 const path = require("path");
+const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
+const fileUpload = require("express-fileupload");
 
 const app = express();
+app.use(express.json());
+const swaggerJSDocs = YAML.load("./api.yaml");
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerJSDocs));
+app.use(fileUpload());
 
 //deployment
 
@@ -30,7 +37,6 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.use(express.json());
 app.use(cookieParser());
 app.use(bodyparser.urlencoded({ extended: true }));
 
