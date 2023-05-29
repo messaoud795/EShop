@@ -154,7 +154,7 @@ function Home() {
                 )}
               </div>
             </section>
-            {resPerPage <= products.length && (
+            {resPerPage <= productsCount && (
               <div className="d-flex justify-content-center mt-5">
                 <Pagination
                   activePage={currentPage}
