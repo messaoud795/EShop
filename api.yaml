@@ -52,7 +52,162 @@ paths:
             Set-Cookie:
               schema: 
                 type: string
-                example: token=abcde12345; Path=/; HttpOnly
+                example: token=abcde12345; Path=/
+
+
+  /api/register:
+    post:
+      summary: Register and returns the authentication  cookie
+      tags:
+        - auth    
+      security: []    # no authentication
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+            required:
+              - email
+              - password
+              - name
+              - avatar
+            properties:
+              email:
+                type: string
+              password:
+                password: string 
+              name:
+                type: string
+              avatar:
+                password: string 
+    responses:
+      '200':
+        description: >
+          Successfully authenticated.
+          The session ID is returned in a cookie named `token`. You need to include this cookie in subsequent requests.
+        headers: 
+          Set-Cookie:
+            schema: 
+              type: string
+              example: token=abcde12345; Path=/
+
+  /api/password/forgot:
+    post:
+      summary: reset token when password is forgotten
+      tags:
+        - auth    
+      security: []    # no authentication
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+            required:
+              - email
+            properties:
+              email:
+                type: string
+    responses:
+      '200':
+        description: >
+          Your password reset token is sent to your email
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              message:
+                type: string
+
+  /api/password/reset/{token}:
+    put:
+      summary: reset password 
+      tags:
+        - auth    
+      security: []    # no authentication
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type : string
+        - in: body
+          name: body
+          schema:
+            type: object
+            required:
+              - newPassword
+            properties:
+              newPassword:
+                type: string
+      responses:
+        '200':
+          description:  'success'
+          schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                token:
+                  type: string
+                user:
+                  type: object
+          headers: 
+            Set-Cookie:
+              schema: 
+                type: string
+                example: token=abcde12345; Path=/
+
+  /api/me:
+    get:
+      summary: Get User profile
+      tags:
+        - auth
+      security:
+        - cookieAuth: []                
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              user:
+                type: object
+
+  /api/password/update:
+    put:
+      summary: Update User password
+      tags:
+        - auth
+      security:
+        - cookieAuth: []    
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+            required:
+              - oldPassword
+              - newPassword
+            properties:
+              oldPassword:
+                type: string
+              newPassword:
+                type: string             
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              token:
+                type: string
+              user:
+                type: object
 
   /api/products:
     get:
