@@ -1,0 +1,15 @@
+.product {
+  box-shadow: 0 0 8px #00000030;
+  cursor: pointer;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-in-out;
+}
+
+.product:hover {
+  transform: translateY(-8px);
+  background-color: rgba(228, 217, 217, 0.301);
+}
+
+.product:active {
+  transform: translateY(5px);
+}

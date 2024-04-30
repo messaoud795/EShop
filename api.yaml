@@ -1,0 +1,440 @@
+swagger: "2.0.0"
+info:
+  title: Eshop API
+  description: API Documentation Build with Swagger UI
+  version: 1.0
+  contact:
+    email: nabil.massaoud@yahoo.com
+  servers:
+    -url: http://localhost:5000
+    description: THis is my local Server
+    -url: https://eshop1.cyclic.app/
+    description: This is my original URL
+schemes: [ http,https]
+
+# 1) Define the cookie name
+components:
+  securitySchemes:
+    cookieAuth:         # arbitrary name for the security scheme; will be used in the "security" key later
+      type: apiKey
+      in: cookie
+      name: token  # cookie name
+# 2) Apply cookie auth globally to all operations
+security:
+  - cookieAuth: []
+
+paths:
+  /api/login:
+    post:
+      summary: Logs in and returns the authentication  cookie
+      tags:
+        - auth    
+      security: []    # no authentication
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+            required:
+              - email
+              - password
+            properties:
+              email:
+                type: string
+              password:
+                password: string 
+      responses:
+        '200':
+          description: >
+            Successfully authenticated.
+            The session ID is returned in a cookie named `token`. You need to include this cookie in subsequent requests.
+          headers: 
+            Set-Cookie:
+              schema: 
+                type: string
+                example: token=abcde12345; Path=/
+
+
+  /api/register:
+    post:
+      summary: Register and returns the authentication  cookie
+      tags:
+        - auth    
+      security: []    # no authentication
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+            required:
+              - email
+              - password
+              - name
+              - avatar
+            properties:
+              email:
+                type: string
+              password:
+                password: string 
+              name:
+                type: string
+              avatar:
+                password: string 
+    responses:
+      '200':
+        description: >
+          Successfully authenticated.
+          The session ID is returned in a cookie named `token`. You need to include this cookie in subsequent requests.
+        headers: 
+          Set-Cookie:
+            schema: 
+              type: string
+              example: token=abcde12345; Path=/
+
+  /api/password/forgot:
+    post:
+      summary: reset token when password is forgotten
+      tags:
+        - auth    
+      security: []    # no authentication
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+            required:
+              - email
+            properties:
+              email:
+                type: string
+    responses:
+      '200':
+        description: >
+          Your password reset token is sent to your email
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              message:
+                type: string
+
+  /api/password/reset/{token}:
+    put:
+      summary: reset password 
+      tags:
+        - auth    
+      security: []    # no authentication
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type : string
+        - in: body
+          name: body
+          schema:
+            type: object
+            required:
+              - newPassword
+            properties:
+              newPassword:
+                type: string
+      responses:
+        '200':
+          description:  'success'
+          schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                token:
+                  type: string
+                user:
+                  type: object
+          headers: 
+            Set-Cookie:
+              schema: 
+                type: string
+                example: token=abcde12345; Path=/
+
+  /api/me:
+    get:
+      summary: Get User profile
+      tags:
+        - auth
+      security:
+        - cookieAuth: []                
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              user:
+                type: object
+
+  /api/password/update:
+    put:
+      summary: Update User password
+      tags:
+        - auth
+      security:
+        - cookieAuth: []    
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+            required:
+              - oldPassword
+              - newPassword
+            properties:
+              oldPassword:
+                type: string
+              newPassword:
+                type: string             
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              token:
+                type: string
+              user:
+                type: object
+
+  /api/products:
+    get:
+      summary: Returns a list of products.
+      description: People Who are already registered
+      tags:
+        - product
+      parameters:
+        - in: query
+          name: keyword
+          type: string
+        - in: query
+          name: currentPage
+          type: integer
+        - in: query
+          name: price
+          type: integer
+        - in: query
+          name: category
+          type: string
+          enum: ['Electronics','Cameras','Laptops','Headphones','Food','books','shoes','sport','home']
+        - in: query
+          name: rating
+          type: string
+          enum: [1, 2, 3,4 ,5]
+      responses:
+        200: # status code
+          description: Success
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              count:
+                type: integer
+              productsCount:
+                type: integer
+              resPerPage:
+                type: integer
+              products:
+                type: array
+                items:
+                  type: object
+
+  /api/product/{id}:
+    get:
+      summary: Returns a specific product.
+      description: Returns a specific product by id in path paramas
+      tags:
+        - product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type : integer
+            format: int64
+      responses:
+        200: # status code
+          description: Success
+    
+  /api/reviews:
+    get:
+      summary: Get a product reviews.
+      tags:
+        - product
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type : string
+      responses:
+        200:
+          description: Success
+  
+  /api/review:
+    put:
+      summary: Add a product review.
+      tags:
+        - product
+      security:
+        - cookieAuth: []
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+            required:
+              - rating
+              - comment
+              - productId
+            properties:
+              rating:
+                type: integer
+              comment:
+                type: string 
+              productId:
+                type: string 
+      responses:
+        200:
+          description: Success
+    delete:
+      summary: Delete a product review.
+      tags:
+        - product
+      security:
+        - cookieAuth: []
+      parameters:
+        - in: query
+          name: productId
+          required: true
+        - in: query
+          name: reviewId
+          required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+
+  /api/product/new:
+    post:
+      summary: Add a product review.
+      tags:
+        - product
+      security:
+        - cookieAuth: []
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+            required:
+              - name
+              - description
+              - category
+              - stock
+              - seller
+              - price
+              - images
+            properties:
+              name:
+                type: integer
+              description:
+                type: string 
+              category:
+                type: string 
+              images:
+                type: array
+                items: 
+                  type: string
+              stock:
+                type: integer 
+              seller:
+                type: string 
+              price:
+                type: integer                 
+      responses:
+        200:
+          description: Success
+
+  /api/admin/product/{id}:
+    put:
+      summary: Update a specific product.
+      tags:
+        - product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type : string
+        - in: body
+          name: body
+          schema:
+            type: object
+            required:
+              - name
+              - description
+              - category
+              - stock
+              - seller
+              - price
+              - images
+            properties:
+              name:
+                type: integer
+              description:
+                type: string 
+              category:
+                type: string 
+              images:
+                type: array
+                items: 
+                  type: string 
+              stock:
+                type: integer 
+              seller:
+                type: string 
+              price:
+                type: integer                 
+      responses:
+        200:
+          description: Success
+    delete:
+      summary: Delete a specific product.
+      tags:
+        - product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type : string
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+
+           

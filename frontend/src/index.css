@@ -1,0 +1,28 @@
+/* 75em=1200px */
+@media (max-width: 75em) {
+  /* 1rem is 16 pixel */
+  html {
+    font-size: 90% !important;
+  }
+}
+/* 65.25em=900px */
+@media (max-width: 56.25em) {
+  /* 1rem is 16 pixel */
+
+  html {
+    font-size: 80% !important;
+  }
+}
+/* 65.25em=600px */
+@media (max-width: 37.5em) {
+  html {
+    font-size: 70% !important;
+  }
+}
+
+/* 112.5em=1800px */
+@media (min-width: 112.5em) {
+  html {
+    font-size: 110% !important;
+  }
+}
